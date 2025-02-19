@@ -9,7 +9,7 @@
 
 import json
 import streamlit as st
-from llms.models import qwen_langgpt, hunyuan_langgpt, glm_langgpt, gpt_langgpt, claude_langgpt  # noqa
+from llms.models import qwen_langgpt, hunyuan_langgpt, glm_langgpt  # noqa
 from templates.template_default import default_prompt, edit_content
 
 
