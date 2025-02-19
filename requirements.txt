@@ -1,0 +1,4 @@
+openai~=1.59.7
+tencentcloud-sdk-python~=3.0.1304
+zhipuai~=2.1.0.20240521
+streamlit~=1.39.0
