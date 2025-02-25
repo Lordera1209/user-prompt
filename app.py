@@ -124,7 +124,7 @@ if content := st.chat_input("请输入您的问题"):
                 _template=template,
                 _name=model,
                 _api_key=api_key,
-                _content=prefix.replace('【CONTENT】', content),
+                _content=prefix.replace('【CONTENT】', content + "&DONE&"),
                 _max_tokens=max_tokens
             )
             
@@ -143,13 +143,9 @@ if content := st.chat_input("请输入您的问题"):
                                 volume = 1
                                 full_response += chunk_data[chunk_data.find("#"):]
                                 continue
-                            if "'''" in chunk_data and volume:
+                            if "&" in chunk_data and volume:
                                 switch = 0
-                                full_response += chunk_data[:chunk_data.find("'''")]
-                                break
-                            if "---" in chunk_data and volume:
-                                switch = 0
-                                full_response += chunk_data[:chunk_data.find("---")]
+                                full_response += chunk_data[:chunk_data.find("&")]
                                 break
                     
                     if model.split('-')[0] == 'hunyuan':
