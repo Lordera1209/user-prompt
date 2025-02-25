@@ -144,7 +144,7 @@ if content := st.chat_input("请输入您的问题"):
                                 full_response += chunk_data[:chunk_data.find("'''")]
                                 break
                             if switch == 1:
-                                full_response += chunk_data.find("#")
+                                full_response += chunk_data
                                 message_placeholder.code(full_response + "▌", language="markdown")
                             else:
                                 continue
