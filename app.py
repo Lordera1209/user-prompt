@@ -12,6 +12,13 @@ import streamlit as st
 from llms.models import qwen_langgpt, hunyuan_langgpt, glm_langgpt  # noqa
 from templates.template_default import default_prompt, edit_content
 
+prefix = r"""
+下面就是待分析的 Prompt:
+---
+## 【CONTENT】
+---
+"""
+
 
 def generate_response(_model, _template, _name, _api_key, _content, _max_tokens):
     """调用API生成回复"""
@@ -116,7 +123,7 @@ if content := st.chat_input("请输入您的问题"):
                 _template=template,
                 _name=model,
                 _api_key=api_key,
-                _content=content,
+                _content=prefix.replace('【CONTENT】', content),
                 _max_tokens=max_tokens
             )
             
