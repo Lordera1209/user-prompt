@@ -124,7 +124,7 @@ if content := st.chat_input("请输入您的问题"):
                 _template=template,
                 _name=model,
                 _api_key=api_key,
-                _content=prefix.replace('【CONTENT】', content + "&DONE&"),
+                _content=prefix.replace('【CONTENT】', content),
                 _max_tokens=max_tokens
             )
             
