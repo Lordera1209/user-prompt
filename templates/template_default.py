@@ -100,5 +100,4 @@ edit_content = """
 
 ## 初始化
 {}
-clisdjclidsjlc
 """

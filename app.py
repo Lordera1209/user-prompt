@@ -9,6 +9,8 @@
 
 import json
 import streamlit as st
+from sympy.physics.units import volume
+
 from llms.models import qwen_langgpt, hunyuan_langgpt, glm_langgpt  # noqa
 from templates.template_default import default_prompt, edit_content
 
@@ -127,13 +129,27 @@ if content := st.chat_input("请输入您的问题"):
                 _max_tokens=max_tokens
             )
             
+            switch, volume = 0, 0
             if response:
                 try:
                     if model.split('-')[0] == 'qwen':
                         for chunk in response:
                             chunk_data = chunk.choices[0].delta.content if chunk.choices else ''
-                            full_response += chunk_data
-                            message_placeholder.code(full_response + "▌", language="markdown")
+                            if "#" in chunk_data and not volume:
+                                switch = 1
+                                volume = 1
+                                full_response += chunk_data[chunk_data.find("#"):]
+                                continue
+                            if "'''" in chunk_data and volume:
+                                switch = 0
+                                full_response += chunk_data[:chunk_data.find("'''")]
+                                break
+                            if switch == 1:
+                                full_response += chunk_data.find("#")
+                                message_placeholder.code(full_response + "▌", language="markdown")
+                            else:
+                                continue
+                    
                     if model.split('-')[0] == 'hunyuan':
                         for chunk in response:
                             chunk_data = json.loads(chunk['data'])['Choices'][0]['Delta']['Content'] if chunk else ''
