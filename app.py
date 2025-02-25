@@ -134,6 +134,10 @@ if content := st.chat_input("请输入您的问题"):
                     if model.split('-')[0] == 'qwen':
                         for chunk in response:
                             chunk_data = chunk.choices[0].delta.content if chunk.choices else ''
+                            if switch == 1:
+                                full_response += chunk_data
+                                message_placeholder.code(full_response + "▌", language="markdown")
+                                continue
                             if "#" in chunk_data and not volume:
                                 switch = 1
                                 volume = 1
@@ -147,11 +151,6 @@ if content := st.chat_input("请输入您的问题"):
                                 switch = 0
                                 full_response += chunk_data[:chunk_data.find("---")]
                                 break
-                            if switch == 1:
-                                full_response += chunk_data
-                                message_placeholder.code(full_response + "▌", language="markdown")
-                            else:
-                                continue
                     
                     if model.split('-')[0] == 'hunyuan':
                         for chunk in response:
